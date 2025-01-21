@@ -15,7 +15,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,7 +34,7 @@ public class Room {
   private String roomType;
   @Column(name="room_Price")
   private BigDecimal roomPrice;
-  @Column(name="isBooking")
+  @Column(name="is_Booking")
   private boolean isBooking = false;
 
   @Lob
