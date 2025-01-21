@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: airbnb-clone
+  datasource:
+    url: jdbc:postgresql://localhost:5432/clone_airbnb_db
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+      file-size-threshold: 2KB
+
+server:
+  port: 9192
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    root: INFO
+    com.clarissek.airbnb_clone: DEBUG
