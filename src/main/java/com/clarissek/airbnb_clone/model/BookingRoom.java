@@ -2,8 +2,6 @@ package com.clarissek.airbnb_clone.model;
 
 import java.time.LocalDate;
 
-import org.yaml.snakeyaml.events.Event.ID;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,7 +24,7 @@ import lombok.Setter;
 public class BookingRoom {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long bookingId;
+  private Long id;
   @Column(name="start_Date")
   private LocalDate startDate;
   @Column(name="end_Date")
