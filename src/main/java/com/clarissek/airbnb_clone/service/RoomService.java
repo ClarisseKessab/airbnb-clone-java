@@ -13,6 +13,10 @@ import java.sql.SQLException;
 import javax.sql.rowset.serial.SerialBlob;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
+
 @Service
 @RequiredArgsConstructor
 public class RoomService implements IRoomService {
@@ -31,5 +35,11 @@ public class RoomService implements IRoomService {
       }
       return roomRepository.save(room);
   }
+
+  @Override
+    public List<String> getAllRoomTypes() {
+    return Arrays.asList("Standard", "Deluxe", "Suite");
+}
+
 
 }
