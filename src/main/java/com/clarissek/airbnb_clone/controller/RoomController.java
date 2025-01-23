@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ import com.clarissek.airbnb_clone.service.IRoomService;
 
 import lombok.RequiredArgsConstructor;
 
-
+@CrossOrigin(origins = "http://localhost:5173")
 @RequiredArgsConstructor
 @RequestMapping("/rooms")
 @RestController
@@ -36,10 +37,9 @@ public class RoomController {
     return ResponseEntity.ok(response);
   }
 
-  @GetMapping("/room-type")
-  public ResponseEntity<List<String>> getRoomTypes() {
-    List<String> roomTypes = roomService.getAllRoomTypes();
-    return ResponseEntity.ok(roomTypes);
-}
+  @GetMapping("/room/types")
+  public List<String> getRoomTypes() {
+    return roomService.getAllRoomTypes();
+  }
 
 }
