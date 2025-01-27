@@ -19,13 +19,16 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import javax.management.relation.RelationNotFoundException;
+
+import com.clarissek.airbnb_clone.exception.PhotoRetrievalException;
 import com.clarissek.airbnb_clone.model.BookingRoom;
 import com.clarissek.airbnb_clone.model.Room;
 import com.clarissek.airbnb_clone.response.BookingRoomResponse;
 import com.clarissek.airbnb_clone.response.RoomResponse;
 import com.clarissek.airbnb_clone.service.IRoomService;
+import com.clarissek.airbnb_clone.service.BookingService;
 
-import io.micrometer.core.ipc.http.HttpSender.Response;
 import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -35,6 +38,7 @@ import lombok.RequiredArgsConstructor;
 public class RoomController {
 
   private final IRoomService roomService;
+  private final BookingService bookingService;
 
   @PostMapping("/add/new-room")
   public ResponseEntity<RoomResponse> addNewRoom(@RequestParam("photo") MultipartFile photo,@RequestParam("roomType") String roomType,@RequestParam("roomPrice") BigDecimal roomPrice) throws IOException, SQLException{
@@ -52,7 +56,12 @@ public class RoomController {
     List<Room> rooms = roomService.getAllRooms();
     List<RoomResponse> roomResponses = new ArrayList<>();
     for(Room room : rooms){
-      byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
+      byte[] photoBytes = null;
+        try {
+            photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
+        } catch (RelationNotFoundException | SQLException e) {
+            continue;
+        }
       if(photoBytes != null && photoBytes.length > 0){
         String base64Photo = Base64.getEncoder().encodeToString(photoBytes);
         RoomResponse roomResponse = getRoomResponse(room);
@@ -76,11 +85,11 @@ public class RoomController {
 
       }
     }
-    return new RoomResponse(room.getId(), room.getRoomType(), room.getRoomPrice())
+    return new RoomResponse(room.getId(), room.getRoomType(), room.getRoomPrice(), room.isBooking(),photoBytes, bookingInfo);
     }
 
   private List<BookingRoom> getAllBookingsByRoomId(Long roomId){
-    return bookingService.getAllBookingsByRoomid(roomId);
+    return bookingService.getAllBookingsByRoomId(roomId);
   }
 
 
